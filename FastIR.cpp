@@ -1,5 +1,5 @@
 /*
-    uIR library
+    FastIR library
 
     Copyright (c) 2014 Frank Bösing
 
@@ -53,56 +53,63 @@ static volatile uint32_t ir_pressedKey;
 
 void IR_FTM_ISR(void)
 {
+
 static uint16_t shortestTime = 0xffff;
 static uint16_t halfBitCnt = 0;
 static uint16_t halfBits [IR_MAXBITS * 2];
 static uint16_t lastTimervalue;
-uint16_t timervalue;
+uint32_t timervalue;
 uint32_t time;
 
-    // Clear channel interrupt flag
-    BITBAND_PERI(IR_FTM_CSC,7) = 0;//IR_FTM_CSC &= ~0x80;
+    // Clear Channel Interrupt Flag
+    BITBAND_PERI(IR_FTM_CSC,7) = 0;// IR_FTM_CSC &= ~0x80;
 
-    timervalue = (uint16_t)IR_FTM_CV;
+    if (BITBAND_PERI(IR_FTM_SC, 7) != 0) { //Timer-Overflow ?
+        // Clear Overflow Flag
+        BITBAND_PERI(IR_FTM_SC, 7) = 0; // IR_FTM_SC &= ~FTM_SC_TOF;
+        timervalue = IR_FTM_CV + 0x10000;
+    }
+    else
+        timervalue = IR_FTM_CV;
+
     time = timervalue - lastTimervalue;
     lastTimervalue = timervalue;
 
-    if (BITBAND_PERI(IR_FTM_SC, 7) != 0) { //Timer-Overflow ?
-            time += 0x10000;
-            BITBAND_PERI(IR_FTM_SC, 7) = 0; //IR_FTM_SC &= ~FTM_SC_TOF;
-    }
+    if (time > IR_TIMEOUT)
+    {
 
-    if (time > IR_TIMEOUT) {
+        if (halfBitCnt > (IR_MINBITS * 2))
+        {
 
-        ir_pressedKey =0;
-
-        if (halfBitCnt > (IR_MINBITS * 2)) {
-
-            //normalize measured half bit-times
+            //Normalize measured half bit-times
             uint32_t hash = FNV_BASIS_32;
-            uint16_t i;
-            for (i=0; i < halfBitCnt; i++) {
-                uint8_t tmp =  (halfBits[i] / shortestTime) ;
+            while (halfBitCnt > 0)
+            {
+                halfBitCnt--;
+                uint8_t tmp =  (halfBits[halfBitCnt] / shortestTime);
                 //FNV-Hash http://isthe.com/chongo/tech/comp/fnv/#FNV-1a
                 hash = ( hash ^ tmp  ) * FNV_PRIME_32;
-            //  Serial.print(tmp);
-            //  Serial.print(" ");
             }
 
             ir_pressedKey = hash;
 
-            //Serial.print(time);
-            //Serial.print("\r\n");
         }
+
+        else ir_pressedKey = 0;
 
         //reset for next received code
         halfBitCnt = 0;
         shortestTime = 0xffff;
     }
 
-    else if (halfBitCnt < ((IR_MAXBITS * 2) - 1)) {
+    else if (halfBitCnt < ((IR_MAXBITS * 2) - 1))
+    {
         halfBits[halfBitCnt++] = (uint16_t)time;
-        if ( (uint16_t)time < shortestTime) shortestTime = (uint16_t)time;
+
+        if ( (uint16_t)time < shortestTime)
+        {
+           shortestTime = (uint16_t)time;
+        }
     }
 
 }
