@@ -83,7 +83,8 @@ uint32_t time;
 
             //Normalize measured half bit-times
             uint32_t hash = FNV_BASIS_32;
-            while (halfBitCnt > 0)
+			halfBitCnt--; // ignore last value..
+            while (halfBitCnt > 1) //and ignore first value
             {
                 halfBitCnt--;
                 uint8_t tmp =  (halfBits[halfBitCnt] / shortestTime);
@@ -102,7 +103,7 @@ uint32_t time;
         shortestTime = 0xffff;
     }
 
-    else if (halfBitCnt < ((IR_MAXBITS * 2) - 1))
+    else if (halfBitCnt <= IR_MAXBITS * 2)
     {
         halfBits[halfBitCnt++] = (uint16_t)time;
 
@@ -135,10 +136,10 @@ FastIR::FastIR()
     // CHF=0 CHIE=1 MSB=0 MSA=0 ELSB=1 ELSA=1 DMA=0
     IR_FTM_CSC = 0x4C;
 
-    // Lowest interrupt priority is sufficient: the time of the Pinchange is captured and stored in FTMx_CxV
-    NVIC_SET_PRIORITY(IR_FTM_IRQ, 0xFF);
+	NVIC_SET_PRIORITY(IR_FTM_IRQ, 112);
 
     // Enable FTM interrupt inside NVIC
+    // the time of the Pinchange is captured and stored in FTMx_CxV
     NVIC_ENABLE_IRQ(IR_FTM_IRQ);
 
     ir_pressedKey = 0;
