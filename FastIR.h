@@ -45,7 +45,7 @@
 
 //#define IR_PIN  3 // FTM1_CH0
 //#define IR_PIN  4 // FTM1_CH1
-//#define IR_PIN  5 // FTM0_CH7
+#define IR_PIN  5 // FTM0_CH7
 //#define IR_PIN  6 // FTM0_CH4
 //#define IR_PIN  9 // FTM0_CH2
 //#define IR_PIN 10 // FTM0_CH3
@@ -54,7 +54,7 @@
 //#define IR_PIN 20 // FTM0_CH5
 //#define IR_PIN 21 // FTM0_CH6
 //#define IR_PIN 22 // FTM0_CH0
-#define IR_PIN 23 // FTM0_CH1
+//#define IR_PIN 23 // FTM0_CH1
 //#define IR_PIN 24 // FTM0_CH2
 //#define IR_PIN 25 // FTM2_CH1
 //#define IR_PIN 32 // FTM2_CH0
@@ -71,7 +71,6 @@
 #define IR_MINBITS		6
 #define IR_MAXBITS		40
 #define IR_TIMEOUT_MS	20	 // Timeout in milliseconds (ms)
-
 
 
 ////////////////////////////////////////////////////////////////
@@ -93,72 +92,74 @@ public:
 
 #define IR_FTM_CLKS	  ((1<<4) | (0<<3)) // select FLL Clock input
 // Prescale: Clock / 2 = 15.624 kHz
-#define IR_FTM_CLKPS  0x00
+#define IR_FTM_CLKPS  0x00;
 #define IR_TIMEOUT	  ( IR_TIMEOUT_MS * 31250 / (1<<(IR_FTM_CLKPS+1)) / 1000)
 
 
+
+
 #if IR_PIN == 3
- #define IR_PINCONFIG PORTA_PCR12 |= 0x300
+ #define IR_PINCONFIG PORTA_PCR12 = 0x310
  #define IR_FTM_CV	  FTM1_C0V
  #define IR_FTM_CSC	  FTM1_C0SC
 #elif IR_PIN == 4
- #define IR_PINCONFIG PORTA_PCR13 |= 0x300
+ #define IR_PINCONFIG PORTA_PCR13 = 0x310 
  #define IR_FTM_CV	  FTM1_C1V
  #define IR_FTM_CSC	  FTM1_C1SC
 #elif IR_PIN == 5
- #define IR_PINCONFIG PORTD_PCR7  |= 0x400
+ #define IR_PINCONFIG PORTD_PCR7  = 0x410
  #define IR_FTM_CV	  FTM0_C7V
  #define IR_FTM_CSC	  FTM0_C7SC
 #elif IR_PIN == 6
- #define IR_PINCONFIG PORTD_PCR4  |= 0x400
+ #define IR_PINCONFIG PORTD_PCR4  = 0x410
  #define IR_FTM_CV	  FTM0_C4V
  #define IR_FTM_CSC	  FTM0_C4SC
 #elif IR_PIN == 9
- #define IR_PINCONFIG PORTC_PCR3  |= 0x400
+ #define IR_PINCONFIG PORTC_PCR3  = 0x410
  #define IR_FTM_CV	  FTM0_C2V
  #define IR_FTM_CSC	  FTM0_C2SC
 #elif IR_PIN == 10
- #define IR_PINCONFIG PORTC_PCR4  |= 0x400
+ #define IR_PINCONFIG PORTC_PCR4  = 0x410
  #define IR_FTM_CV	  FTM0_C3V
  #define IR_FTM_CSC	  FTM0_C3SC
 #elif IR_PIN == 16
- #define IR_PINCONFIG PORTB_PCR0  |= 0x300
+ #define IR_PINCONFIG PORTB_PCR0  = 0x310
  #define IR_FTM_CV	  FTM1_C0V
  #define IR_FTM_CSC	  FTM1_C0SC
 #elif IR_PIN == 17
- #define IR_PINCONFIG PORTB_PCR1  |= 0x300
+ #define IR_PINCONFIG PORTB_PCR1  = 0x310
  #define IR_FTM_CV	  FTM1_C1V
  #define IR_FTM_CSC	  FTM1_C1SC
 #elif IR_PIN == 20
- #define IR_PINCONFIG PORTD_PCR5  |= 0x400
+ #define IR_PINCONFIG PORTD_PCR5  = 0x410
  #define IR_FTM_CV	  FTM0_C5V
  #define IR_FTM_CSC	  FTM0_C5SC
 #elif IR_PIN == 21
- #define IR_PINCONFIG PORTD_PCR6  |= 0x400
+ #define IR_PINCONFIG PORTD_PCR6  = 0x410
  #define IR_FTM_CV	  FTM0_C6V
  #define IR_FTM_CSC	  FTM0_C6SC
 #elif IR_PIN == 22
- #define IR_PINCONFIG PORTC_PCR1  |= 0x400
+ #define IR_PINCONFIG PORTC_PCR1  = 0x410
  #define IR_FTM_CV	  FTM0_C0V
  #define IR_FTM_CSC	  FTM0_C0SC
 #elif IR_PIN == 23
- #define IR_PINCONFIG PORTC_PCR2  |= 0x400
+ #define IR_PINCONFIG PORTC_PCR2  = 0x410
  #define IR_FTM_CV	  FTM0_C1V
  #define IR_FTM_CSC	  FTM0_C1SC
 #elif IR_PIN == 24
- #define IR_PINCONFIG PORTA_PCR5  |= 0x300
+ #define IR_PINCONFIG PORTA_PCR5  = 0x310
  #define IR_FTM_CV	  FTM0_C2V
  #define IR_FTM_CSC	  FTM0_C2SC
 #elif IR_PIN == 25
- #define IR_PINCONFIG PORTB_PCR19 |= 0x300
+ #define IR_PINCONFIG PORTB_PCR19 = 0x310
  #define IR_FTM_CV	  FTM2_C1V
  #define IR_FTM_CSC	  FTM2_C1SC
 #elif IR_PIN == 32
- #define IR_PINCONFIG PORTB_PCR18 |= 0x300
+ #define IR_PINCONFIG PORTB_PCR18 = 0x310
  #define IR_FTM_CV	  FTM2_C0V
  #define IR_FTM_CSC	  FTM2_C0SC
 #elif IR_PIN == 33
- #define IR_PINCONFIG PORTA_PCR4  |= 0x300
+ #define IR_PINCONFIG PORTA_PCR4  = 0x310
  #define IR_FTM_CV	  FTM0_C1V
  #define IR_FTM_CSC	  FTM0_C1SC
 #else
