@@ -1,7 +1,7 @@
 /*
 	FastIR library
 
-	Copyright (c) 2014 Frank Bösing
+	Copyright (c) 2014 Frank BÃ¶sing
 
 	This program is free software: you can redistribute it and/or modify
 	it under the terms of the GNU General Public License as published by
@@ -16,26 +16,26 @@
 	You should have received a copy of the GNU General Public License
 	along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-	Dieses Programm ist Freie Software: Sie können es unter den Bedingungen
+	Dieses Programm ist Freie Software: Sie kÃ¶nnen es unter den Bedingungen
 	der GNU General Public License, wie von der Free Software Foundation,
 	Version 3 der Lizenz oder (nach Ihrer Wahl) jeder neueren
-	veröffentlichten Version, weiterverbreiten und/oder modifizieren.
+	verÃ¶ffentlichten Version, weiterverbreiten und/oder modifizieren.
 
-	Dieses Programm wird in der Hoffnung, dass es nützlich sein wird, aber
-	OHNE JEDE GEWÄHRLEISTUNG, bereitgestellt; sogar ohne die implizite
-	Gewährleistung der MARKTFÄHIGKEIT oder EIGNUNG FÜR EINEN BESTIMMTEN ZWECK.
-	Siehe die GNU General Public License für weitere Details.
+	Dieses Programm wird in der Hoffnung, dass es nÃ¼tzlich sein wird, aber
+	OHNE JEDE GEWÃ„HRLEISTUNG, bereitgestellt; sogar ohne die implizite
+	GewÃ¤hrleistung der MARKTFÃ„HIGKEIT oder EIGNUNG FÃœR EINEN BESTIMMTEN ZWECK.
+	Siehe die GNU General Public License fÃ¼r weitere Details.
 
 	Sie sollten eine Kopie der GNU General Public License zusammen mit diesem
 	Programm erhalten haben. Wenn nicht, siehe <http://www.gnu.org/licenses/>.
  */
 
 
-#if (!defined(FastIR_h)) && (defined(__MK20DX128__) || defined(__MK20DX256__))
+#if (!defined(FastIR_h)) && defined(KINETISK)
 #define FastIR_h
 
-#include "mk20dx128.h"
-#include "inttypes.h"
+#include <kinetis.h>
+#include <inttypes.h>
 
 ////////////////////////////////////////////////////////////////
 // Tunable parameters
