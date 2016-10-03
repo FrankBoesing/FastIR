@@ -5,4 +5,4 @@ non-blocking, fast and compact code.
 
 uses FTM0
 
-Works Independend of IR-Protocol and manufacturer !
+Works independend of IR-Protocol and manufacturer !
